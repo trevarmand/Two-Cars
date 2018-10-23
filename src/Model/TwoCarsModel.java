@@ -2,21 +2,53 @@ package Model;
 
 public interface TwoCarsModel {
 
-  public boolean isGameOver();
+  /**
+   * @return whether or not this game is over.
+   */
+  boolean isGameOver();
 
-  public boolean isGamePaused();
+  /**
+   * @return whether or not the game is paused.
+   */
+  boolean isGamePaused();
 
-  public void pause();
+  /**
+   * Pause the game.
+   */
+  void pause();
 
-  public void resume();
+  /**
+   * Resume the game.
+   */
+  void resume();
 
-  public void quit();
+  /**
+   * Quit the current game.
+   */
+  void quit();
 
-  public void switchLane(String side);
+  /**
+   * Switches the lane of the car on the given side.
+   *
+   * @param side A string, either "left" or "right"
+   */
+  void switchLane(String side);
 
-  public int getLane(String side);
+  /**
+   * Get the lane of the care on the specified side
+   *
+   * @param side the car who's lane we would like to know.
+   * @return int representing the lane of this car
+   */
+  int getCarLane(String side);
 
-  public void checkForCollisions();
+  /**
+   * Inspect current movables for collisions and react accordingly.
+   */
+  void manageCollisions();
 
-  public void runMovers();
+  /**
+   * Run the game. Allows controller to reference fewer Model methods, which loosens coupling
+   */
+  void run();
 }

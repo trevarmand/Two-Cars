@@ -1,10 +1,21 @@
 package View;
 
-import Controller.TwoCarsController;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public interface TwoCarsView {
+public interface TwoCarsView extends KeyListener {
 
-  public void display();
+  /**
+   * Run the GUI for this game.
+   */
+  void display();
 
-  public void interact(TwoCarsController c);
+  @Override
+  void keyTyped(KeyEvent e);
+
+  @Override
+  void keyPressed(KeyEvent e);
+
+  @Override
+  void keyReleased(KeyEvent e);
 }

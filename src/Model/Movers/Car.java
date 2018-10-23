@@ -1,28 +1,20 @@
-package Model.Objects;
+package Model.Movers;
 
-public class Car {
-  private int lane;
+public class Car extends Mover {
 
   private int xPosn = 75 + ((lane - 1) * 150);
 
-  public Car() {
-    this.lane = (int) (Math.random() * 3) + 1;
-  }
-
+  /**
+   * Constructs a car in the specified lane.
+   *
+   * @param lane the lane where this Car should reside
+   */
   public Car(int lane) {
     this.lane = lane;
   }
 
   /**
-   * Gives the current lane of the Car;
-   */
-  public int getLane() {
-    return lane;
-  }
-
-  /**
    * Gives the precise x coordinate of this car.
-   *
    * @return the x coordinate of this car.
    */
   public int getX() {

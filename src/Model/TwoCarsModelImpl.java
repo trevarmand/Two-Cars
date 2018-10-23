@@ -1,16 +1,17 @@
 package Model;
 
-import Model.Objects.Car;
-import Model.Objects.Circle;
-import Model.Objects.Square;
+import Model.Movers.Car;
+import Model.Movers.Circle;
+import Model.Movers.Square;
 
-public class TwoCarsModelImpl implements TwoCarsModel {
-  private Car leftCar = new Car();
-  private Car rightCar = new Car();
+public final class TwoCarsModelImpl implements TwoCarsModel {
+  private Car leftCar = new Car(1);
+  private Car rightCar = new Car(2);
 
-  Square[] squares = new Square[10];
-  Circle[] circles = new Circle[10];
+  private Square[] squares = new Square[10];
+  private Circle[] circles = new Circle[10];
 
+  //the current number of Circles collected
   private int score;
 
   //have we seen a collision?
@@ -19,6 +20,9 @@ public class TwoCarsModelImpl implements TwoCarsModel {
   //is the game paused?
   private boolean gamePaused;
 
+  /**
+   * Construct a new traditional Two Cars Model
+   */
   public TwoCarsModelImpl() {
     this.score = 0;
     this.gameOver = false;
@@ -34,35 +38,40 @@ public class TwoCarsModelImpl implements TwoCarsModel {
     }
   }
 
-  //get the lane of the car on the specified side
-  public int getLane(String side) {
+  @Override
+  public int getCarLane(String side) {
     if (side.equals("left")) {
       return leftCar.getLane();
     } else return rightCar.getLane();
   }
 
+  @Override
   public void pause() {
     this.gamePaused = true;
   }
 
+  @Override
   public void resume() {
     this.gamePaused = false;
   }
 
+  @Override
   public void quit() {
     this.gameOver = true;
   }
 
+  @Override
   public boolean isGameOver() {
     return this.gameOver;
   }
 
+  @Override
   public boolean isGamePaused() {
     return this.gamePaused;
   }
 
   @Override
-  public void checkForCollisions() {
+  public void manageCollisions() {
     int leftX = leftCar.getX();
     int rightX = rightCar.getX();
     if (!this.gamePaused) {
@@ -84,14 +93,27 @@ public class TwoCarsModelImpl implements TwoCarsModel {
     }
   }
 
-  @Override
-  public void runMovers() {
+  /**
+   * Run the program.
+   */
+  public void run() {
+    if (!this.gameOver) {
+      while (!this.gamePaused) {
+        this.runShapes();
+      }
+    }
+  }
+
+  /**
+   * Move all shapes
+   */
+  private void runShapes() {
     if (!this.gamePaused) {
       for (Circle c : circles) {
-        c.move();
+        c.moveDown();
       }
       for (Square s : squares) {
-        s.move();
+        s.moveDown();
       }
     }
   }
