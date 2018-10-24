@@ -17,6 +17,7 @@ public class TwoCarsControllerImpl implements TwoCarsController {
       case "right":
         model.switchLane("right");
         break;
+      case "p":
       case "space":
         if (model.isGamePaused()) {
           model.resume();
@@ -35,8 +36,6 @@ public class TwoCarsControllerImpl implements TwoCarsController {
     while (!model.isGameOver()) {
       if (!model.isGamePaused()) {
         model.run();
-      } else {
-        //TODO Add pause screen in the future
       }
     }
   }

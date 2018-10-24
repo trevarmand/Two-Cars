@@ -41,20 +41,7 @@ public abstract class Mover {
   /**
    * Updates this Mover's y position to simulate vertical movement.
    */
-  public void moveDown() {
-    while (yPosn > CANVAS_HEIGHT) {
-      //TODO move down
-    }
-  }
-
-  /**
-   * Updates this Mover's x position to simulate horizontal movement.
-   */
-  public void moveHorizontal() {
-    if ((this.lane & 1) == 0) {
-      //TODO move to the right
-    } else {
-      //TODO move to the left
-    }
+  public void move() {
+    //TODO move vertically
   }
 }

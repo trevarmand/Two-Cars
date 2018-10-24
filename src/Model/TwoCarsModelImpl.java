@@ -8,7 +8,9 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   private Car leftCar = new Car(1);
   private Car rightCar = new Car(2);
 
+  //All squares currently active in the game.
   private Square[] squares = new Square[10];
+  //All circles currently active in the game.
   private Circle[] circles = new Circle[10];
 
   //the current number of Circles collected
@@ -71,6 +73,11 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   }
 
   @Override
+  public int getScore() {
+    return this.score;
+  }
+
+  @Override
   public void manageCollisions() {
     int leftX = leftCar.getX();
     int rightX = rightCar.getX();
@@ -105,16 +112,15 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   }
 
   /**
-   * Move all shapes
+   * Move all shapes.
    */
   private void runShapes() {
-    if (!this.gamePaused) {
-      for (Circle c : circles) {
-        c.moveDown();
-      }
-      for (Square s : squares) {
-        s.moveDown();
-      }
+    //TODO call to method generating shapes
+    for (Circle c : circles) {
+      //c.move();
+    }
+    for (Square s : squares) {
+      //s.move();
     }
   }
 }

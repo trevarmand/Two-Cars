@@ -21,12 +21,20 @@ public class Car extends Mover {
     return this.xPosn;
   }
 
+  /**
+   * Switch the car's current lane.
+   */
   public void switchLane() {
     if ((lane & 1) == 0) {
       lane--;
     } else {
       lane++;
     }
-    //TODO: a function for moving the x coordinate
+    this.move();
+  }
+
+  @Override
+  public void move() {
+    //TODO function for horizontal movement
   }
 }

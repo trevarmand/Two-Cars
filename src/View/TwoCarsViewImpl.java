@@ -15,11 +15,20 @@ public class TwoCarsViewImpl extends JFrame implements TwoCarsView {
   //the model associated with this view
   private TwoCarsModel model;
 
+  private JPanel panel = new JPanel();
+
+  JFrame frame = new JFrame("Two Cars");
+
+  //private JLabel score = new JLabel(Integer.toString(model.getScore()));
+
   /**
    * Constructs a new traditional Two Car View
    */
   public TwoCarsViewImpl(TwoCarsController controller, TwoCarsModel model) {
-    super();
+    super("Two Cars");
+    setSize(600, 800);
+    setResizable(false);
+    setVisible(true);
     this.controller = controller;
     this.model = model;
   }
@@ -27,7 +36,12 @@ public class TwoCarsViewImpl extends JFrame implements TwoCarsView {
   @Override
   public void display() {
     if (!model.isGameOver()) {
-      //TODO implement graphics
+      if (!model.isGamePaused()) {
+        panel.add(frame);
+        panel.add(new JTextField("hello world"));
+      } else {
+        //TODO implement pause screen
+      }
     } else {
       //TODO implement a game over screen.
     }

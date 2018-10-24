@@ -43,6 +43,13 @@ public interface TwoCarsModel {
   int getCarLane(String side);
 
   /**
+   * Returns the current score.
+   *
+   * @return the current score of the game
+   */
+  public int getScore();
+
+  /**
    * Inspect current movables for collisions and react accordingly.
    */
   void manageCollisions();
