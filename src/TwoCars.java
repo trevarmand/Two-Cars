@@ -9,8 +9,8 @@ public class TwoCars {
 
   public static void main(String[] args) {
     TwoCarsModel tcm = new TwoCarsModelImpl();
-    TwoCarsController tcc = new TwoCarsControllerImpl(tcm);
-    TwoCarsView tcv = new TwoCarsViewImpl(tcc, tcm);
+    TwoCarsView tcv = new TwoCarsViewImpl();
+    TwoCarsController tcc = new TwoCarsControllerImpl(tcm, tcv);
     tcc.playGame();
   }
 }

@@ -1,64 +1,64 @@
 package View;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
 
 import javax.swing.*;
 
-import Controller.TwoCarsController;
-import Model.TwoCarsModel;
+import Model.Mover;
 
-public class TwoCarsViewImpl extends JFrame implements TwoCarsView {
+public class TwoCarsViewImpl extends JFrame implements TwoCarsView, KeyListener {
 
-  //the controller associated with this view
-  private TwoCarsController controller;
+  //the current score
+  private int score = 0;
 
-  //the model associated with this view
-  private TwoCarsModel model;
+  private GamePanel gp;
 
-  private JPanel panel = new JPanel();
-
-  JFrame frame = new JFrame("Two Cars");
-
-  //private JLabel score = new JLabel(Integer.toString(model.getScore()));
+  private Decorations decor;
 
   /**
    * Constructs a new traditional Two Car View
    */
-  public TwoCarsViewImpl(TwoCarsController controller, TwoCarsModel model) {
+  public TwoCarsViewImpl() {
     super("Two Cars");
-    setSize(600, 800);
-    setResizable(false);
-    setVisible(true);
-    this.controller = controller;
-    this.model = model;
+    Dimension gameScreenDim = new Dimension(600, 800);
+    this.setSize(gameScreenDim);
+    this.setResizable(false);
+    decor = new Decorations();
+    gp = new GamePanel();
+    this.add(decor);
+    decor.add(gp);
+    this.setVisible(true);
+    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
   @Override
-  public void display() {
-    if (!model.isGameOver()) {
-      if (!model.isGamePaused()) {
-        panel.add(frame);
-        panel.add(new JTextField("hello world"));
-      } else {
-        //TODO implement pause screen
-      }
-    } else {
-      //TODO implement a game over screen.
-    }
+  public void refresh(List<Mover> obstacles) {
+    gp.updateShapePosns(obstacles);
+    gp.updateScore(score);
+    decor.repaint();
+    this.repaint();
+  }
+
+  @Override
+  public void setScore(int score) {
+    this.score = score;
   }
 
   @Override
   public void keyTyped(KeyEvent e) {
-    //do nothing
+    //Do nothing
   }
 
   @Override
   public void keyPressed(KeyEvent e) {
-    controller.dispatchInput(e.getKeyText(e.getKeyCode()));
+    //Alert controller
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-    //do nothing
+    //Do nothing
   }
 }

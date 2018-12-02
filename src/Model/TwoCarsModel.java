@@ -1,31 +1,8 @@
 package Model;
 
+import java.util.List;
+
 public interface TwoCarsModel {
-
-  /**
-   * @return whether or not this game is over.
-   */
-  boolean isGameOver();
-
-  /**
-   * @return whether or not the game is paused.
-   */
-  boolean isGamePaused();
-
-  /**
-   * Pause the game.
-   */
-  void pause();
-
-  /**
-   * Resume the game.
-   */
-  void resume();
-
-  /**
-   * Quit the current game.
-   */
-  void quit();
 
   /**
    * Switches the lane of the car on the given side.
@@ -47,15 +24,22 @@ public interface TwoCarsModel {
    *
    * @return the current score of the game
    */
-  public int getScore();
+  int getScore();
 
   /**
    * Inspect current movables for collisions and react accordingly.
+   * Remove objects from the scene that are no longer rendered.
+   * @Return false if there is a game-ending collision.
    */
-  void manageCollisions();
+  boolean managePositions();
 
   /**
-   * Run the game. Allows controller to reference fewer Model methods, which loosens coupling
+   * Makes all moves shift down one position.
    */
-  void run();
+  void stepMovers();
+
+  /**
+   * Return a list of the active movers in the program.
+   */
+  List<Mover> getMovers();
 }

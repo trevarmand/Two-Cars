@@ -1,42 +1,49 @@
 package Model;
 
-import Model.Movers.Car;
-import Model.Movers.Circle;
-import Model.Movers.Square;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public final class TwoCarsModelImpl implements TwoCarsModel {
   private Car leftCar = new Car(1);
   private Car rightCar = new Car(2);
 
   //All squares currently active in the game.
-  private Square[] squares = new Square[10];
+  private ArrayList<Square> squares = new ArrayList<>();
   //All circles currently active in the game.
-  private Circle[] circles = new Circle[10];
+  private ArrayList<Circle> circles = new ArrayList<>();
 
   //the current number of Circles collected
-  private int score;
-
-  //have we seen a collision?
-  private boolean gameOver;
-
-  //is the game paused?
-  private boolean gamePaused;
+  private int score = 0;
 
   /**
    * Construct a new traditional Two Cars Model
    */
   public TwoCarsModelImpl() {
-    this.score = 0;
-    this.gameOver = false;
-    this.gamePaused = false;
+    squares.add(new Square(0));
+    circles.add(new Circle(1));
+    squares.add(new Square(2));
+    circles.add(new Circle(3));
+
+    circles.add(new Circle(0, -250));
+    squares.add(new Square(1, -250));
+    circles.add(new Circle(2, -250));
+    squares.add(new Square(3, -250));
+
+    circles.add(new Circle(0, -500));
+    squares.add(new Square(1, -500));
+    circles.add(new Circle(2, -500));
+    squares.add(new Square(3, -500));
   }
 
   @Override
   public void switchLane(String side) {
     if (side.equals("left")) {
       leftCar.switchLane();
-    } else {
+    } else if (side.equals("right")) {
       rightCar.switchLane();
+    } else {
+      throw new IllegalArgumentException("Invalid side");
     }
   }
 
@@ -44,32 +51,11 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   public int getCarLane(String side) {
     if (side.equals("left")) {
       return leftCar.getLane();
-    } else return rightCar.getLane();
-  }
-
-  @Override
-  public void pause() {
-    this.gamePaused = true;
-  }
-
-  @Override
-  public void resume() {
-    this.gamePaused = false;
-  }
-
-  @Override
-  public void quit() {
-    this.gameOver = true;
-  }
-
-  @Override
-  public boolean isGameOver() {
-    return this.gameOver;
-  }
-
-  @Override
-  public boolean isGamePaused() {
-    return this.gamePaused;
+    } else if (side.equals("right")) {
+      return rightCar.getLane();
+    } else {
+      throw new IllegalArgumentException("Invalid side");
+    }
   }
 
   @Override
@@ -78,49 +64,59 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   }
 
   @Override
-  public void manageCollisions() {
-    int leftX = leftCar.getX();
-    int rightX = rightCar.getX();
-    if (!this.gamePaused) {
-      for (Square sq : squares) {
-        if (sq.getXPosn() == leftX || sq.getXPosn() == rightX
-                && (sq.getYPosn() > 800 && sq.getYPosn() < 50)) {
-          this.gameOver = true;
-        }
-      }
-      for (Circle c : circles) {
-        //TODO determine lower boundary such that missing a token ends game
-        if (c.getYPosn() > 1000) {
-          this.gameOver = true;
-        } else if (c.getXPosn() == leftX || c.getXPosn() == rightX
-                && (c.getYPosn() > 800)) {
-          this.score++;
-        }
+  public boolean managePositions() {
+    int leftX = leftCar.getXPosn();
+    int rightX = rightCar.getXPosn();
+    for (Square sq : squares) {
+      if ((Math.abs(sq.getXPosn() - leftCar.getXPosn()) < 30
+              || Math.abs(sq.getXPosn() - rightCar.getXPosn()) < 30)
+              && (sq.getYPosn() > 620)) {
+        System.out.println("Hit Square");
+        //return false;
+        sq.reset();
+      } else if (sq.getYPosn() > 815) {
+        sq.reset();
       }
     }
-  }
-
-  /**
-   * Run the program.
-   */
-  public void run() {
-    if (!this.gameOver) {
-      while (!this.gamePaused) {
-        this.runShapes();
-      }
-    }
-  }
-
-  /**
-   * Move all shapes.
-   */
-  private void runShapes() {
-    //TODO call to method generating shapes
     for (Circle c : circles) {
-      //c.move();
+      //TODO determine lower boundary such that missing a token ends game
+      //TODO determine safe zone
+      if (c.getYPosn() > 750) {
+        System.out.println("in here");
+        c.reset();
+        return false;
+      } else if ((Math.abs(c.getXPosn() - leftCar.getXPosn()) < 30
+              || Math.abs(c.getXPosn() - rightCar.getXPosn()) < 30)
+              && c.getYPosn() > 620) {
+        System.out.println("Coin collected");
+        this.score++;
+        c.reset();
+      }
     }
+    return false;
+  }
+
+  @Override
+  public void stepMovers() {
     for (Square s : squares) {
-      //s.move();
+      s.move();
     }
+    for (Circle c : circles) {
+      c.move();
+    }
+  }
+
+  @Override
+  public List<Mover> getMovers() {
+    Vector<Mover> ret = new Vector<>();
+    for (Circle c : circles) {
+      ret.add(c);
+    }
+    for (Square r : squares) {
+      ret.add(r);
+    }
+    ret.add(leftCar);
+    ret.add(rightCar);
+    return ret;
   }
 }

@@ -1,21 +1,18 @@
 package View;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.List;
 
-public interface TwoCarsView extends KeyListener {
+import Model.Mover;
+
+public interface TwoCarsView {
 
   /**
-   * Run the GUI for this game.
+   * Redraw the GUI for this game.
    */
-  void display();
+  void refresh(List<Mover> obstacles);
 
-  @Override
-  void keyTyped(KeyEvent e);
-
-  @Override
-  void keyPressed(KeyEvent e);
-
-  @Override
-  void keyReleased(KeyEvent e);
+  /**
+   * Update the score of this view
+   */
+  void setScore(int score);
 }
