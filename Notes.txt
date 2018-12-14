@@ -1,2 +1,4 @@
 Fluid lane switch function
 
+Represent the car's coordinate body (for collisions) as a Triangle or a trapezoid
+	- Wait to do this. Start with a quicker side to side slide, graduate to angled car

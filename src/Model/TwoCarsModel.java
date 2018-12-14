@@ -12,14 +12,6 @@ public interface TwoCarsModel {
   void switchLane(String side);
 
   /**
-   * Get the lane of the care on the specified side
-   *
-   * @param side the car who's lane we would like to know.
-   * @return int representing the lane of this car
-   */
-  int getCarLane(String side);
-
-  /**
    * Returns the current score.
    *
    * @return the current score of the game
@@ -29,7 +21,7 @@ public interface TwoCarsModel {
   /**
    * Inspect current movables for collisions and react accordingly.
    * Remove objects from the scene that are no longer rendered.
-   * @Return false if there is a game-ending collision.
+   * @return false if there is a game-ending collision.
    */
   boolean managePositions();
 

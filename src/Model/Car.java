@@ -17,10 +17,12 @@ public class Car extends Mover {
    * Switch the car's current lane.
    */
   public void switchLane() {
-    if ((lane & 1) == 0) {
-      lane--;
+    if (lane == 0 || lane == 2) {
+      this.lane++;
+    } else if (lane == 1 || lane == 3) {
+      this.lane--;
     } else {
-      lane++;
+      throw new IllegalArgumentException("Found a car outside of valid lanes");
     }
   }
 

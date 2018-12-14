@@ -33,28 +33,35 @@ public class GamePanel extends JPanel {
       } else {
         g.setColor(red);
       }
-      if (m.getType().equals("circle")) {
-        g.fillOval(m.getXPosn() - 20, m.getYPosn(), 40, 40);
-        g.setColor(inner);
-        g.fillOval(m.getXPosn() - 15, m.getYPosn() + 5, 30, 30);
-        if (m.getLane() < 2) {
-          g.setColor(blue);
-        } else {
-          g.setColor(red);
-        }
-        g.fillOval(m.getXPosn() - 8, m.getYPosn() + 12, 16, 16);
-      } else if (m.getType().equals("square")) {
-        g.fillRect(m.getXPosn() - 20, m.getYPosn(), 40, 40);
-        g.setColor(inner);
-        g.fillRect(m.getXPosn() - 10, m.getYPosn() + 10, 20, 20);
-      } else if (m.getType().equals("left car")) {
-        g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
-        g.setColor(carInner);
-        g.fillRect(m.getXPosn() - 12, m.getYPosn() + 17, 25, 35);
-      } else if (m.getType().equals("right car")) {
-        g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
-        g.setColor(carInner);
-        g.fillRect(m.getXPosn() - 12, m.getYPosn() + 17, 25, 35);
+      switch (m.getType()) {
+        case "circle":
+          g.fillOval(m.getXPosn() - 20, m.getYPosn(), 40, 40);
+          g.setColor(inner);
+          g.fillOval(m.getXPosn() - 15, m.getYPosn() + 5, 30, 30);
+          if (m.getLane() < 2) {
+            g.setColor(blue);
+          } else {
+            g.setColor(red);
+          }
+          g.fillOval(m.getXPosn() - 8, m.getYPosn() + 12, 16, 16);
+          break;
+        case "square":
+          g.fillRect(m.getXPosn() - 20, m.getYPosn(), 40, 40);
+          g.setColor(inner);
+          g.fillRect(m.getXPosn() - 10, m.getYPosn() + 10, 20, 20);
+          break;
+        case "left car":
+          System.out.println("Left Car:" + m.getLane());
+          g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
+          g.setColor(carInner);
+          g.fillRect(m.getXPosn() - 12, m.getYPosn() + 17, 25, 35);
+          break;
+        case "right car":
+          System.out.println("Right Car: " + m.getLane());
+          g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
+          g.setColor(carInner);
+          g.fillRect(m.getXPosn() - 12, m.getYPosn() + 17, 25, 35);
+          break;
       }
     }
   }

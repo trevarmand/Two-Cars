@@ -38,23 +38,15 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
 
   @Override
   public void switchLane(String side) {
-    if (side.equals("left")) {
-      leftCar.switchLane();
-    } else if (side.equals("right")) {
-      rightCar.switchLane();
-    } else {
-      throw new IllegalArgumentException("Invalid side");
-    }
-  }
-
-  @Override
-  public int getCarLane(String side) {
-    if (side.equals("left")) {
-      return leftCar.getLane();
-    } else if (side.equals("right")) {
-      return rightCar.getLane();
-    } else {
-      throw new IllegalArgumentException("Invalid side");
+    switch (side) {
+      case "left":
+        leftCar.switchLane();
+        break;
+      case "right":
+        rightCar.switchLane();
+        break;
+      default:
+        throw new IllegalArgumentException("Invalid side");
     }
   }
 
@@ -109,12 +101,8 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   @Override
   public List<Mover> getMovers() {
     Vector<Mover> ret = new Vector<>();
-    for (Circle c : circles) {
-      ret.add(c);
-    }
-    for (Square r : squares) {
-      ret.add(r);
-    }
+    ret.addAll(circles);
+    ret.addAll(squares);
     ret.add(leftCar);
     ret.add(rightCar);
     return ret;
