@@ -34,10 +34,10 @@ public class TwoCarsViewImpl extends JFrame implements TwoCarsView, KeyListener 
     Dimension gameScreenDim = new Dimension(600, 800);
     this.setSize(gameScreenDim);
     this.setResizable(false);
-    decor = new Decorations();
-    gp = new GamePanel();
-    this.add(decor);
+    this.decor = new Decorations();
+    this.gp = new GamePanel();
     decor.add(gp);
+    this.add(decor);
     this.setVisible(true);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setFocusable(true);

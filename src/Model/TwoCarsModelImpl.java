@@ -73,13 +73,14 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     for (Circle c : circles) {
       //TODO determine lower boundary such that missing a token ends game
       //TODO determine safe zone
-      if (c.getYPosn() > 750) {
-        System.out.println("in here");
+      if (c.getYPosn() > 700) {
+        System.out.println("Missed Coin");
         c.reset();
         return false;
       } else if ((Math.abs(c.getXPosn() - leftCar.getXPosn()) < 30
               || Math.abs(c.getXPosn() - rightCar.getXPosn()) < 30)
-              && c.getYPosn() > 620) {
+              && c.getYPosn() > 560) //Magic Number 560 = top edge of car
+      {
         System.out.println("Coin collected");
         this.score++;
         c.reset();

@@ -13,11 +13,21 @@ public class GamePanel extends JPanel {
 
   private java.util.List<Mover> movers;
 
+  private JLabel scoreBoard;
+
   GamePanel() {
     Dimension d = new Dimension(600, 800);
     this.setPreferredSize(d);
-    this.setVisible(true);
     movers = new ArrayList<>();
+    scoreBoard = new JLabel(Integer.toString(score));
+    Font curFont = scoreBoard.getFont();
+    scoreBoard.setFont(new Font(curFont.getName(), Font.PLAIN, 50));
+    scoreBoard.setForeground(Color.WHITE);
+    scoreBoard.setHorizontalTextPosition(SwingConstants.RIGHT);
+    BorderLayout bl = new BorderLayout();
+    this.setLayout(bl);
+    this.add(scoreBoard, BorderLayout.NORTH);
+    this.setVisible(true);
   }
 
   @Override
@@ -51,13 +61,11 @@ public class GamePanel extends JPanel {
           g.fillRect(m.getXPosn() - 10, m.getYPosn() + 10, 20, 20);
           break;
         case "left car":
-          System.out.println("Left Car:" + m.getLane());
           g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
           g.setColor(carInner);
           g.fillRect(m.getXPosn() - 12, m.getYPosn() + 17, 25, 35);
           break;
         case "right car":
-          System.out.println("Right Car: " + m.getLane());
           g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
           g.setColor(carInner);
           g.fillRect(m.getXPosn() - 12, m.getYPosn() + 17, 25, 35);
@@ -78,5 +86,6 @@ public class GamePanel extends JPanel {
    */
   void updateScore(int score) {
     this.score = score;
+    scoreBoard.setText(Integer.toString(score));
   }
 }
