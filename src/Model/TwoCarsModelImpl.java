@@ -1,7 +1,8 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Stack;
 import java.util.Vector;
 
 public final class TwoCarsModelImpl implements TwoCarsModel {
@@ -9,9 +10,9 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   private Car rightCar = new Car(2);
 
   //All squares currently active in the game.
-  private ArrayList<Square> squares = new ArrayList<>();
+  private Stack<Square> squares = new Stack<>();
   //All circles currently active in the game.
-  private ArrayList<Circle> circles = new ArrayList<>();
+  private Stack<Circle> circles = new Stack<>();
 
   //the current number of Circles collected
   private int score = 0;
@@ -25,15 +26,10 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     squares.add(new Square(2));
     circles.add(new Circle(3));
 
-    circles.add(new Circle(0, -250));
+    circles.add(new Circle(0, -300));
     squares.add(new Square(1, -250));
-    circles.add(new Circle(2, -250));
-    squares.add(new Square(3, -250));
-
-    circles.add(new Circle(0, -500));
-    squares.add(new Square(1, -500));
-    circles.add(new Circle(2, -500));
-    squares.add(new Square(3, -500));
+    circles.add(new Circle(2, -430));
+    squares.add(new Square(3, -400));
   }
 
   @Override
@@ -57,25 +53,23 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
 
   @Override
   public boolean managePositions() {
-    int leftX = leftCar.getXPosn();
-    int rightX = rightCar.getXPosn();
+    Square bottomSquare = null;
+    Circle bottomCircle = null;
     for (Square sq : squares) {
       if ((Math.abs(sq.getXPosn() - leftCar.getXPosn()) < 30
               || Math.abs(sq.getXPosn() - rightCar.getXPosn()) < 30)
               && (sq.getYPosn() > 620)) {
         System.out.println("Hit Square");
         //return false;
-        sq.reset();
       } else if (sq.getYPosn() > 815) {
-        sq.reset();
+        bottomSquare = sq;
       }
     }
     for (Circle c : circles) {
-      //TODO determine lower boundary such that missing a token ends game
-      //TODO determine safe zone
       if (c.getYPosn() > 700) {
         System.out.println("Missed Coin");
-        c.reset();
+        //TODO will ultimately be removed, game over functionality imposed.
+        this.spawnMover(c.getLane());
         return false;
       } else if ((Math.abs(c.getXPosn() - leftCar.getXPosn()) < 30
               || Math.abs(c.getXPosn() - rightCar.getXPosn()) < 30)
@@ -83,8 +77,16 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
       {
         System.out.println("Coin collected");
         this.score++;
-        c.reset();
+        bottomCircle = c;
       }
+    }
+    if (bottomSquare != null) {
+      squares.remove(bottomSquare);
+      this.spawnMover(bottomSquare.getLane());
+    }
+    if (bottomCircle != null) {
+      this.spawnMover(bottomCircle.getLane());
+      circles.remove(bottomCircle);
     }
     return false;
   }
@@ -107,5 +109,18 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     ret.add(leftCar);
     ret.add(rightCar);
     return ret;
+  }
+
+  /**
+   * Helper for managing mover spawns. C
+   */
+  private void spawnMover(int lane) {
+    Random randy = new Random();
+    int offset = randy.nextInt(100);
+    if (randy.nextBoolean()) {
+      circles.push(new Circle(lane, 0 - offset));
+    } else {
+      squares.push(new Square(lane, 0 - offset));
+    }
   }
 }
