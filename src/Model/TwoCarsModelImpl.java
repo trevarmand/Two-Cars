@@ -9,6 +9,8 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   private Car leftCar = new Car(1);
   private Car rightCar = new Car(2);
 
+  private Random randy;
+
   //All squares currently active in the game.
   private Stack<Square> squares = new Stack<>();
   //All circles currently active in the game.
@@ -21,6 +23,8 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
    * Construct a new traditional Two Cars Model
    */
   public TwoCarsModelImpl() {
+    randy = new Random();
+
     squares.add(new Square(0));
     circles.add(new Circle(1));
     squares.add(new Square(2));
@@ -30,6 +34,14 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     squares.add(new Square(1, -250));
     circles.add(new Circle(2, -430));
     squares.add(new Square(3, -400));
+
+    if (randy.nextBoolean()) {
+      circles.add(new Circle(0, -450));
+      squares.add(new Square(1, -375));
+    } else if (randy.nextBoolean()) {
+      squares.add(new Square(2, -525));
+      circles.add(new Circle(3, -500));
+    }
   }
 
   @Override
@@ -58,7 +70,7 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     for (Square sq : squares) {
       if ((Math.abs(sq.getXPosn() - leftCar.getXPosn()) < 30
               || Math.abs(sq.getXPosn() - rightCar.getXPosn()) < 30)
-              && (sq.getYPosn() > 620)) {
+              && (sq.getYPosn() > 620) && sq.getYPosn() < 700) {
         System.out.println("Hit Square");
         //return false;
       } else if (sq.getYPosn() > 815) {
@@ -115,12 +127,39 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
    * Helper for managing mover spawns. C
    */
   private void spawnMover(int lane) {
-    Random randy = new Random();
-    int offset = randy.nextInt(100);
+    int offset = this.findHighestMover(lane).getYPosn() - randy.nextInt(100);
     if (randy.nextBoolean()) {
       circles.push(new Circle(lane, 0 - offset));
     } else {
       squares.push(new Square(lane, 0 - offset));
     }
+  }
+
+  /**
+   * Helper to find the highest mover in the lane. Used for gap deciding when spawning movers.
+   * Should be pretty quick, but there's gotta be a better way to do this if we move away from a
+   * stack.
+   */
+  private Mover findHighestMover(int lane) {
+    Mover top = null;
+    for (Circle c : circles) {
+      if (c.getLane() == lane && top != null) {
+        if (c.getYPosn() < top.getYPosn()) {
+          top = c;
+        }
+      } else {
+        top = c;
+      }
+    }
+    for (Square s : squares) {
+      if (s.getLane() == lane && top != null) {
+        if (s.getYPosn() < top.getYPosn()) {
+          top = s;
+        }
+      } else {
+        top = s;
+      }
+    }
+    return top;
   }
 }

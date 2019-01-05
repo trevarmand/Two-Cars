@@ -58,7 +58,13 @@ public class GamePanel extends JPanel {
         case "square":
           g.fillRect(m.getXPosn() - 20, m.getYPosn(), 40, 40);
           g.setColor(inner);
-          g.fillRect(m.getXPosn() - 10, m.getYPosn() + 10, 20, 20);
+          g.fillRect(m.getXPosn() - 13, m.getYPosn() + 7, 26, 26);
+          if (m.getLane() < 2) {
+            g.setColor(blue);
+          } else {
+            g.setColor(red);
+          }
+          g.fillRect(m.getXPosn() - 6, m.getYPosn() + 14, 12, 12);
           break;
         case "left car":
           g.fillRect(m.getXPosn() - 25, m.getYPosn(), 50, 70);
