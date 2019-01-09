@@ -35,13 +35,13 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     circles.add(new Circle(2, -430));
     squares.add(new Square(3, -400));
 
-    if (randy.nextBoolean()) {
-      circles.add(new Circle(0, -450));
-      squares.add(new Square(1, -375));
-    } else if (randy.nextBoolean()) {
-      squares.add(new Square(2, -525));
-      circles.add(new Circle(3, -500));
-    }
+//    if (randy.nextBoolean()) {
+//      circles.add(new Circle(0, -450));
+//      squares.add(new Square(1, -375));
+//    } else if (randy.nextBoolean()) {
+//      squares.add(new Square(2, -525));
+//      circles.add(new Circle(3, -500));
+//    }
   }
 
   @Override
@@ -136,28 +136,31 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
   }
 
   /**
-   * Helper to find the highest mover in the lane. Used for gap deciding when spawning movers.
+   * Helper to find the highest mover ON THIS SIDE. Used for gap deciding when spawning movers.
    * Should be pretty quick, but there's gotta be a better way to do this if we move away from a
    * stack.
+   *
+   *
    */
-  private Mover findHighestMover(int lane) {
+  //TODO make private once tested.
+  public Mover findHighestMover(int lane) {
     Mover top = null;
     for (Circle c : circles) {
-      if (c.getLane() == lane && top != null) {
-        if (c.getYPosn() < top.getYPosn()) {
+      if ((c.getLane() < 2 && lane < 2) || (c.getLane() > 1 && lane > 1)) {
+        if (top == null) {
+          top = c;
+        } else if (top != null && c.getYPosn() < top.getYPosn()) {
           top = c;
         }
-      } else {
-        top = c;
       }
     }
     for (Square s : squares) {
-      if (s.getLane() == lane && top != null) {
-        if (s.getYPosn() < top.getYPosn()) {
+      if ((s.getLane() < 2 && lane < 2) || (s.getLane() > 1 && lane > 1)) {
+        if (top == null) {
+          top = s;
+        } else if (top != null && s.getYPosn() < top.getYPosn()) {
           top = s;
         }
-      } else {
-        top = s;
       }
     }
     return top;
