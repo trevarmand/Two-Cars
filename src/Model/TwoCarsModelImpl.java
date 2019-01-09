@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -35,6 +36,10 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
     circles.add(new Circle(2, -430));
     squares.add(new Square(3, -400));
 
+    circles.add(new Circle(0, -435));
+    squares.add(new Square(1, -650));
+    circles.add(new Circle(2, -630));
+    squares.add(new Square(3, -5250));
 //    if (randy.nextBoolean()) {
 //      circles.add(new Circle(0, -450));
 //      squares.add(new Square(1, -375));
@@ -65,8 +70,9 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
 
   @Override
   public boolean managePositions() {
-    Square bottomSquare = null;
-    Circle bottomCircle = null;
+    //TODO handle multiple events at once.
+    ArrayList<Square> squaresToRemove = new ArrayList<Square>();
+    ArrayList<Circle> circlesToRemove = new ArrayList<Circle>();
     for (Square sq : squares) {
       if ((Math.abs(sq.getXPosn() - leftCar.getXPosn()) < 30
               || Math.abs(sq.getXPosn() - rightCar.getXPosn()) < 30)
@@ -74,14 +80,14 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
         System.out.println("Hit Square");
         //return false;
       } else if (sq.getYPosn() > 815) {
-        bottomSquare = sq;
+        squaresToRemove.add(sq);
       }
     }
     for (Circle c : circles) {
       if (c.getYPosn() > 700) {
         System.out.println("Missed Coin");
         //TODO will ultimately be removed, game over functionality imposed.
-        this.spawnMover(c.getLane());
+        circlesToRemove.add(c);
         return false;
       } else if ((Math.abs(c.getXPosn() - leftCar.getXPosn()) < 30
               || Math.abs(c.getXPosn() - rightCar.getXPosn()) < 30)
@@ -89,17 +95,23 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
       {
         System.out.println("Coin collected");
         this.score++;
-        bottomCircle = c;
+        circlesToRemove.add(c);
       }
     }
-    if (bottomSquare != null) {
-      squares.remove(bottomSquare);
-      this.spawnMover(bottomSquare.getLane());
+    if (!squaresToRemove.isEmpty()) {
+      for (Square s : squaresToRemove) {
+        squares.remove(s);
+        this.spawnMover(s.getLane());
+      }
     }
-    if (bottomCircle != null) {
-      this.spawnMover(bottomCircle.getLane());
-      circles.remove(bottomCircle);
+    if (!circlesToRemove.isEmpty()) {
+      for (Circle c : circlesToRemove) {
+        circles.remove(c);
+        this.spawnMover(c.getLane());
+      }
     }
+    squaresToRemove.clear();
+    circlesToRemove.clear();
     return false;
   }
 
@@ -128,10 +140,11 @@ public final class TwoCarsModelImpl implements TwoCarsModel {
    */
   private void spawnMover(int lane) {
     int offset = this.findHighestMover(lane).getYPosn() - randy.nextInt(100);
+    offset -= 100;
     if (randy.nextBoolean()) {
-      circles.push(new Circle(lane, 0 - offset));
+      circles.push(new Circle(lane, offset));
     } else {
-      squares.push(new Square(lane, 0 - offset));
+      squares.push(new Square(lane, offset));
     }
   }
 
