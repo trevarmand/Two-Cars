@@ -23,7 +23,7 @@ public class TwoCarsControllerImpl implements TwoCarsController, ActionListener 
   @Override
   public void playGame() {
     //Magic Number "16": A delay that triggers tim 60 times per second
-    Timer tim = new Timer(8, this);
+    Timer tim = new Timer(16, this);
     tim.setActionCommand("refresh");
     tim.start();
   }
