@@ -8,3 +8,6 @@ Replaced former Two-Cars repository.
 
 As of 1/30/2019:
 The game has reached a playable state - supporting a randomized and valid spawning algorithm, user control with lane switching and play/pause, as well as score display. Game over functionality was removed while working on the spawning algorithm so I could play the game without starting over constantly. The game's performance, however, was mediocre, and I have decided to use my experience to refactor the model. This involves steps such as unifying the data structure containing circles and squares, and imposing an event-driven relationship between the model and its movers.
+
+As of 2/20/2019
+Began implementing refactoring, got sidetracked with NextFM project but decided to finish this guy up for good.
