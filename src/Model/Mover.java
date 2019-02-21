@@ -1,16 +1,21 @@
 package Model;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public abstract class Mover {
   //The lane in which this Mover resides.
-  int lane;
+  protected int lane;
 
   //the X coordinate of this Mover.
-  int xPosn = 0;
+  protected int xPosn = 0;
 
-  //the Y coordinate of this Mover
-  int yPosn = -50;
+  //the Y coordinate of this Mover.
+  protected int yPosn = -50;
+
+  //The listener of this Mover.
+  protected ActionListener listener;
 
   /**
    * Returns the current lane of this mover.
@@ -41,6 +46,10 @@ public abstract class Mover {
    * Updates this Mover's y position to simulate vertical movement.
    */
   public void move() {
+    //If potential to hit either car or fall off the bottom of the screen tell the model
+    if (this.yPosn > 500 && this.yPosn < 850) {
+      listener.actionPerformed(new ActionEvent(this, 1, "collision_zone"));
+    }
     this.yPosn += 2;
   }
 
@@ -60,5 +69,12 @@ public abstract class Mover {
     newLane = Math.round(newLane / 4.0);
     this.yPosn = -250;
     this.lane = (int) newLane;
+  }
+
+  /**
+   * Set the listener for this mover.
+   */
+  public void setListener(ActionListener al) {
+    this.listener = al;
   }
 }

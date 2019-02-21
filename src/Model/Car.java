@@ -28,8 +28,7 @@ public class Car extends Mover {
 
   @Override
   public void move() {
-    //TODO make this switch its lane.
-    //Keep in mind this is called every tick, so it needs to only operate during active movement.
+    //Do nothing
   }
 
   @Override

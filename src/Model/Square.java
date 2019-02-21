@@ -1,5 +1,7 @@
 package Model;
 
+import java.awt.event.ActionListener;
+
 public class Square extends Mover {
 
   /**
@@ -14,6 +16,18 @@ public class Square extends Mover {
   }
 
   /**
+   * Construct a Square with the specified listener, in the specified lane.
+   *
+   * @param lane     the lane where this Square should reside.
+   * @param listener the listener to this square.
+   */
+  protected Square(int lane, ActionListener listener) {
+    super();
+    this.lane = lane;
+    this.listener = listener;
+  }
+
+  /**
    * Construct a new square at the specified y coordinate.
    *
    * @param lane  the lane of this square.
@@ -22,6 +36,21 @@ public class Square extends Mover {
   public Square(int lane, int yPosn) {
     this.lane = lane;
     this.yPosn = yPosn;
+  }
+
+
+  /**
+   * Construct a Square with the specified listener, in the specified lane.
+   *
+   * @param lane     the lane where this Square should reside.
+   * @param yPosn    the y coordinate of this Square.
+   * @param listener the listener to this Square.
+   */
+  protected Square(int lane, int yPosn, ActionListener listener) {
+    super();
+    this.lane = lane;
+    this.yPosn = yPosn;
+    this.listener = listener;
   }
 
   @Override

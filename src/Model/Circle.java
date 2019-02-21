@@ -1,5 +1,7 @@
 package Model;
 
+import java.awt.event.ActionListener;
+
 public class Circle extends Mover {
 
   /**
@@ -14,6 +16,18 @@ public class Circle extends Mover {
   }
 
   /**
+   * Construct a Circle with the specified listener, in the specified lane.
+   *
+   * @param lane     the lane where this Circle should reside.
+   * @param listener the listener to this Circle.
+   */
+  protected Circle(int lane, ActionListener listener) {
+    super();
+    this.lane = lane;
+    this.listener = listener;
+  }
+
+  /**
    * Construct a new circle at the specified y coordinate.
    *
    * @param lane  the lane of this circle.
@@ -22,6 +36,20 @@ public class Circle extends Mover {
   public Circle(int lane, int yPosn) {
     this.lane = lane;
     this.yPosn = yPosn;
+  }
+
+  /**
+   * Construct a Circle with the specified listener, in the specified lane.
+   *
+   * @param lane     the lane where this Circle should reside.
+   * @param yPosn    the y coordinate of this Circle.
+   * @param listener the listener to this Circle.
+   */
+  protected Circle(int lane, int yPosn, ActionListener listener) {
+    super();
+    this.lane = lane;
+    this.yPosn = yPosn;
+    this.listener = listener;
   }
 
   @Override

@@ -19,16 +19,9 @@ public interface TwoCarsModel {
   int getScore();
 
   /**
-   * Inspect current movables for collisions and react accordingly.
-   * Remove objects from the scene that are no longer rendered.
-   * @return false if there is a game-ending collision.
+   * Update model data and react to new data. (Movement, Collisions).
    */
-  boolean managePositions();
-
-  /**
-   * Makes all moves shift down one position.
-   */
-  void stepMovers();
+  void step();
 
   /**
    * Return a list of the active movers in the program.
